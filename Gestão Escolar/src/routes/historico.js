@@ -9,13 +9,18 @@ const objectId = require('mongoose').Types.ObjectId;
 //Get
 
 router.get('/historico', async (req, res) => {
-//intentar imprimir todos los datos
-//hace rel conteo
+
     try {
 
-        const historico = await historicoSchema.find({}).populate([({path:'turmaNumber',populate: [{path: 'codigoProfessor'}]}),'cpfAluno'])
+        const historico = await historicoSchema.find({})
+            .populate([({path: 'idAluno',
+            populate: [{path: 'turmaNumber', 
+            populate: [{path: 'codigoProfessor'}]
+             }]
+             })
+            ]);
 
-        res.status(200).json({ historico });
+        res.status(200).json({ message: 'Lista das Turmas cadastradas',  historico });
 
     } catch (err) {
 
@@ -23,24 +28,24 @@ router.get('/historico', async (req, res) => {
     }
 });
 
-//Get com o codigoHistorico
+//Get com o codigo Historico.
 
 router.get('/historico/:codigoHistorico', async (req, res) => {
 
     const { codigoHistorico } = req.params;
 
-    // Check if the codigoHistorico valid!
+    // Check if the codigo Historico is valid!
 
-    const codigoInexistente = await historicoSchema.findOne({ codigoHistorico })
+    const historicoInexistente = await historicoSchema.findOne({ codigoHistorico })
 
-    if (!codigoInexistente) {
-        res.status(409).json({ message: 'Cpf inválido, Tem que inserir um Cpf existente!' })
+    if (!historicoInexistente) {
+        res.status(409).json({ message: 'codigo Historicoinválido, Tem que inserir um codigo existente!' })
         return
     }
 
     try {
 
-        const achandoHistorico = await historicoSchema.findOne({ codigoHistorico: codigoHistorico })
+        const achandoHistorico = await historicoSchema.findOne({ codigoHistorico })
 
         res.status(200).json({ messagem: 'Historico achado com sucesso', achandoHistorico });
 
@@ -55,40 +60,37 @@ router.get('/historico/:codigoHistorico', async (req, res) => {
 //Post
 router.post('/historico', async (req, res) => {
 
-    const { nameStudent, cpfAluno, codigoHistorico, turmaNumber, historico } = req.body
+    const { nameStudent, idAluno, codigoHistorico, historico,
+    /*turmaAtualizada*/ } = req.body
 
     if (!nameStudent) {
 
-        res.status(422).json({ message: 'Requiere o nameStudent' })
+        res.status(400).json({ message: 'Requiere o nombre do Aluno (nameStudent)' })
         return
 
     }
+    if (!idAluno) {
 
-    if (!cpfAluno) {
-
-        res.status(422).json({ message: 'Requiere o cpf' })
+        res.status(400).json({ message: 'Requiere o Id do aluno(idAluno)' })
         return
     }
-    
     if (!codigoHistorico) {
 
-        res.status(422).json({ message: 'Requiere o cpf' })
-        return
-
-    }
-    
-    if (!turmaNumber) {
-
-        res.status(422).json({ message: 'Requiere o turmaNumber' })
+        res.status(400).json({ message: 'Requiere o codigo do historico(codigoHistorico)' })
         return
 
     }
     if (!historico) {
 
-        res.status(422).json({ message: 'Requiere o historico' })
+        res.status(400).json({ message: 'Requiere o historico(historico)' })
         return
-
     }
+
+    /*if (!turmaAtualizada) {
+
+        res.status(400).json({ message: 'Requiere a turma Atualizada(turmaAtualizada)' })
+        return
+    }*/
 
     try {
 
@@ -98,18 +100,18 @@ router.post('/historico', async (req, res) => {
 
     } catch (err) {
 
-        res.status(400).json({ message: 'Erro ao cadastrar novo Aluno', err })
+        res.status(400).json({ message: 'Erro ao cadastrar o historico Novo', err })
         return
     };
 });
 
-//Put
+//Put com o Codigo do Historico
 
 router.put('/historico/:codigoHistorico', async (req, res) => {
 
     const { codigoHistorico }  = req.params;
 
-    const { historico, turmaNumber } = req.body
+    const { historico } = req.body
    
     // Check if the Cpf is valid!
 
@@ -122,17 +124,11 @@ router.put('/historico/:codigoHistorico', async (req, res) => {
    
     if (!historico) {
 
-        res.status(422).json({ message: 'Requiere o historico' })
+        res.status(400).json({ message: 'Requiere o historico(historico)' })
         return
 
     }
     
-    if (!turmaNumber) {
-
-        res.status(422).json({ message: 'Requiere o turmaNumber' })
-        return
-
-    }
     try {
 
         const historico = await historicoSchema.findOneAndUpdate(codigoHistorico, req.body);
@@ -151,7 +147,7 @@ router.put('/historico/:codigoHistorico', async (req, res) => {
 
 router.delete('/historico/:codigoHistorico', async (req, res) => {
 
-    const {codigoHistorico} = req.params;
+    const { codigoHistorico } = req.params;
 
     // chech if Codigo Historico is valid
     const codigoInexistente = await historicoSchema.findOne({ codigoHistorico });
@@ -163,7 +159,7 @@ router.delete('/historico/:codigoHistorico', async (req, res) => {
 
     try {
 
-        await historicoSchema.findOneAndDelete({codigoHistorico});
+        await historicoSchema.findOneAndDelete({ codigoHistorico });
 
         res.status(200).json({ message: 'Historico removido com sucesso' });
 

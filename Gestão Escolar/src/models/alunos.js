@@ -20,7 +20,8 @@ const alunosSchema = mongoose.Schema({
 
     cpfAluno: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
 
     tutorRepresentante : {
@@ -31,7 +32,7 @@ const alunosSchema = mongoose.Schema({
     turmaNumber: [{
         type: Schema.ObjectId, 
         ref: 'turma'
-    }],
+    }]
 
 
 });

@@ -12,9 +12,14 @@ router.get('/alunos', async (req, res) => {
 
     try {
 
-        const alunos = await alunosSchema.find({}).populate('turmaNumber')
+        const alunos = await alunosSchema.find({}).populate([({
+            path: 'turmaNumber',
+            populate: [{ 
+                path: 'codigoProfessor'}]
+        })])   
+           
 
-        res.status(200).json({ alunos });
+        res.status(200).json({ message: 'Lista dos Alunos cadastrados',  alunos });
 
     } catch (err) {
 
@@ -22,24 +27,24 @@ router.get('/alunos', async (req, res) => {
     }
 });
 
-//Get com o cpfAluno
+//Get com o Cpf do ALuno.
 
 router.get('/alunos/:cpfAluno', async (req, res) => {
 
     const { cpfAluno } = req.params;
 
-    // Check if the cpfAluno valid!
+    // Check if the Cpf do Aluno is valid!
 
-    const codigoInexistente = await alunosSchema.findOne({ cpfAluno })
+    const alunoInexistente = await alunosSchema.findOne({ cpfAluno })
 
-    if (!codigoInexistente) {
+    if (!alunoInexistente) {
         res.status(409).json({ message: 'Cpf inválido, Tem que inserir um Cpf existente!' })
         return
     }
 
     try {
 
-        const achandoAluno = await alunosSchema.findOne({ cpfAluno: cpfAluno }).populate('turmaNumber')
+        const achandoAluno = await alunosSchema.findOne({ cpfAluno }).populate('turmaNumber')
         ;
 
         res.status(200).json({ messagem: 'Aluno achado com sucesso', achandoAluno });
@@ -59,37 +64,37 @@ router.post('/alunos', async (req, res) => {
 
     if (!nameStudent) {
 
-        res.status(422).json({ message: 'Requiere o nameStudent' })
+        res.status(400).json({ message: 'Requiere o nombre del Aluno(nameStudent)' })
         return
 
     }
     if (!lastName) {
 
-        res.status(422).json({ message: 'Requiere o lastName' })
+        res.status(400).json({ message: 'Requiere o Sobrenome do Aluno (lastName)' })
         return
 
     }
     if (!age) {
 
-        res.status(422).json({ message: 'Requiere a age' })
+        res.status(400).json({ message: 'Requiere a idade (age) ' })
         return
 
     }
     if (!cpfAluno) {
 
-        res.status(422).json({ message: 'Requiere o cpf' })
+        res.status(400).json({ message: 'Requiere o cpf do aluno (cpfAluno)' })
         return
 
     }
     if (!tutorRepresentante) {
 
-        res.status(422).json({ message: 'Requiere o tutorRepresentante' })
+        res.status(400).json({ message: 'Requiere o tutorRepresentante' })
         return
 
     }
     if (!turmaNumber) {
 
-        res.status(422).json({ message: 'Requiere o turmaNumber' })
+        res.status(400).json({ message: 'Requiere o numero da turma(turmaNumber)' })
         return
 
     }
@@ -107,7 +112,7 @@ router.post('/alunos', async (req, res) => {
     };
 });
 
-//Put
+//Put com o Cpf do Aluno
 
 router.put('/alunos/:cpfAluno', async (req, res) => {
 
@@ -117,56 +122,52 @@ router.put('/alunos/:cpfAluno', async (req, res) => {
 
     // Check if the Cpf is valid!
 
-    const cpfInexistente = await alunosSchema.findOne({ cpfAluno });
+    const alunoInexistente = await alunosSchema.findOne({ cpfAluno });
 
-    if (!cpfInexistente) {
+    if (!alunoInexistente) {
         res.status(409).json({ message: 'Tem que inserir um Cpf Valido para fazer atualização do Aluno' })
         return
     };
 
     if (!nameStudent) {
 
-        res.status(422).json({ message: 'Requiere o nameStudent' })
+        res.status(400).json({ message: 'Requiere o nome do Aluno(nameStudent)' })
         return
 
     }
 
     if (!lastName) {
 
-        res.status(422).json({ message: 'Requiere o lastName' })
+        res.status(400).json({ message: 'Requiere o sobre nome do Aluno (lastName)' })
         return
 
     }
-
     if (!age) {
 
-        res.status(422).json({ message: 'Requiere a age' })
+        res.status(400).json({ message: 'Requiere a idade do aluno (age)' })
         return
 
     }
-
     if (!cpfAluno) {
 
-        res.status(422).json({ message: 'Requiere o Cpf do Aluno' })
+        res.status(400).json({ message: 'Requiere o Cpf do Aluno(cpfAluno)' })
         return
 
     }
-
     if (!tutorRepresentante) {
-        res.status(422).json({ message: 'Requiere o tutorRepresentante' })
+        res.status(400).json({ message: 'Requiere o nome do representante(tutorRepresentante)' })
         return
 
     }
-
     if (!turmaNumber) {
-        res.status(422).json({ message: 'Requiere o turmaNumber' })
+        res.status(400).json({ message: 'Requiere o numero da turma (turmaNumber)' })
         return
 
     }
 
     try {
 
-        const alunos = await alunosSchema.findOneAndUpdate(cpfAluno, req.body);
+        const alunos = await alunosSchema.findOneAndUpdate ( cpfAluno, req.body );
 
         res.status(200).json({ message: 'Aluno atualizado com sucesso', alunos });
 
@@ -194,7 +195,7 @@ router.delete('/alunos/:cpfAluno', async (req, res) => {
 
     try {
 
-        await alunos.findOneAndDelete(cpfAluno);
+        await alunos.findOneAndDelete({ cpfAluno });
 
         res.status(200).json({ message: 'Aluno removido com sucesso' });
 

@@ -8,7 +8,7 @@ const historicoSchema = mongoose.Schema({
         required: true
     },
 
-    cpfAluno: [{
+    idAluno: [{
         type: Schema.ObjectId,
         ref: 'alunos'
     }],
@@ -19,17 +19,16 @@ const historicoSchema = mongoose.Schema({
         unique: true
     },
 
-    turmaNumber: [{
-        type: Schema.ObjectId,
-        ref: 'turma'
-       
-    }],
-
     historico: {
         type: String,
         require: true
-    }
+    },
 
+   /* turmaAtualizada: {
+        type: Schema.ObjectId,
+        ref: 'turma'
+    }
+*/
 
 });
 

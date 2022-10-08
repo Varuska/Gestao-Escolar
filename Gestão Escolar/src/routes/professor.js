@@ -7,7 +7,7 @@ const router = express.Router();
 //helpers
 const objectId = require('mongoose').Types.ObjectId
 
-    //Get
+//Get
 
 router.get('/professor', async (req, res) => {
 
@@ -15,7 +15,7 @@ router.get('/professor', async (req, res) => {
 
         const professor = await professorSchema.find({});
 
-        res.status(200).json({ professor });
+        res.status(200).json({message: 'Lista dos Professores cadastrados', professor });
 
     } catch (err) {
 
@@ -24,7 +24,7 @@ router.get('/professor', async (req, res) => {
 });
    
 
-    //Get com o Codigo do Professor
+    //Get com o Codigo do Professor.
 router.get('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
@@ -36,12 +36,12 @@ router.get('/professor/:codigo', async (req, res) => {
     if (!codigoInexistente) {
         res.status(409).json({ message: 'Codigo inválido, Tem que inserir um codigo existente!' })
         return
-    }
+    };
 
     try {
 
         const achandoProfessor = await professorSchema.findOne({
-            codigo: codigo
+            codigo
         });
 
         res.status(200).json({ message: 'Professor achado com sucesso', achandoProfessor });
@@ -53,39 +53,38 @@ router.get('/professor/:codigo', async (req, res) => {
     }
 });
 
-    //Post
+//Post
 router.post('/professor', async (req, res) => {
     const { teacherName, lastName, phoneNumber, codigo } = req.body
 
     const codigoExistente = await professorSchema.findOne({ codigo });
 
-    if (codigoExistente) {
+    if (!codigoExistente) {
 
         res.status(409).json({ message: 'Tem que inserir um codigo Novo para um Novo Cadastro' })
         return
     }
-
     if (!teacherName) {
 
-        res.status(400).json({ message: 'Requiere o TeacherName' })
+        res.status(400).json({ message: 'Requiere o nome do Professor(teacherName)' })
         return
 
     }
     if (!lastName) {
 
-        res.status(400).json({ message: 'Requiere o Sobrenome' })
+        res.status(400).json({ message: 'Requiere o Sobrenome (lastName)' })
         return
 
     }
     if (!phoneNumber) {
 
-        res.status(400).json({ message: 'Requiere o Numero de telefono' })
+        res.status(400).json({ message: 'Requiere o Numero de telefono(phoneNumber)' })
         return
 
     }
     if (!codigo) {
 
-        res.status(400).json({ message: 'Requiere o Codigo do professor' })
+        res.status(400).json({ message: 'Requiere o Codigo do professor(codigo)' })
         return
 
     }
@@ -121,24 +120,24 @@ router.put('/professor/:codigo', async (req, res) => {
 
     if (!teacherName) {
 
-        res.status(400).json({ message: 'Requiere o teacherName' })
+        res.status(400).json({ message: 'Requiere o nome do  Professor(teacherName)' })
         return
 
     } if (!lastName) {
 
-        res.status(400).json({ message: 'Requiere o Sobrenome' })
+        res.status(400).json({ message: 'Requiere o Sobrenome(lastName)' })
         return
 
     } if (!phoneNumber) {
 
-        res.status(400).json({ message: 'Requiere o numero de telefono' })
+        res.status(400).json({ message: 'Requiere o numero de telefono(phoneNumber)' })
         return
 
     }
 
     try {
 
-        const professor = await professorSchema.findOneAndUpdate(codigo, req.body);
+        const professor = await professorSchema.findOneAndUpdate( codigo, req.body );
 
         res.status(200).json({ message: 'Professor atualizado com sucesso', professor });
 
@@ -154,18 +153,20 @@ router.put('/professor/:codigo', async (req, res) => {
 
 router.delete('/professor/:codigo', async (req, res) => {
 
-    const {codigo} = req.params;
+    const { codigo } = req.params;
+
+     // chech if codigo is valid
 
     const codigoInexistente = await professorSchema.findOne({ codigo });
 
     if (!codigoInexistente) {
-        res.status(409).json({ message: 'Tem que inserir um Codigo Valido para fazer  do Professor' })
+        res.status(409).json({ message: 'Tem que inserir um Codigo Valido para fazer delete  do Professor' })
         return
     }
 
     try {
 
-        await professor.findOneAndDelete({codigo});
+        await professor.findOneAndDelete({ codigo });
 
         res.status(200).json({ message: 'professor removido com sucesso' });
 
