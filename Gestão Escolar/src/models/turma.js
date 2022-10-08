@@ -1,27 +1,44 @@
 
 const mongoose = require('mongoose');
+const professor = require('./professor');
+const Schema = mongoose.Schema;
 const turmaSchema = mongoose.Schema({
-
-    teacherName : {
-        type: String,
-        required: true
-    },
 
     nameContent: {
         type: String,
         required: true
     },
-  
-    totalStudent: {
+
+    turmaNumber: {
+        type: Number,
+        required:true,
+        unique: true
+
+    },
+
+    capacity : {
         type: Number,
         required: true
     },
 
-    turmaNumber: {
+    totalStudent: {
         type: Number,
-        required:true 
-    }
-
+        required: true
+    },
+    
+    codigoProfessor : [{
+        type: Schema.ObjectId,
+        ref: 'professor'
+        
+    }],
+    
 });
+/* professor, capacidade, alumnos
+
+});*/
+/*teacherName : {
+        type: Schema.codigo,
+        ref: 'professor'
+    }*/
 
 module.exports = mongoose.model('turma', turmaSchema)

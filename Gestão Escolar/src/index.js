@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const  alunosRoutes = require('./routes/alunos');
 const  turmaRoutes = require('./routes/turma');
-
+const professorRoutes = require('./routes/professor');
+const historicoRoutes = require('./routes/historico');
 
 
 // settings
@@ -12,8 +13,11 @@ const port =  process.env.PORT || 9000;
 
 // middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: true}));
 app.use('/api', alunosRoutes);
 app.use('/api', turmaRoutes);
+app.use('/api', professorRoutes);
+app.use('/api', historicoRoutes);
 
 
 // routes

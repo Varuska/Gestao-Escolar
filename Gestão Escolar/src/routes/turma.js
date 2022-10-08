@@ -1,195 +1,198 @@
-
-const express =  require('express');
+const express = require('express');
 const turma = require('../models/turma')
 const turmaSchema = require('../models/turma')
 const router = express.Router();
 
-   //helpers
-   const objectId = require('mongoose').Types.ObjectId
+//Helpers
 
-   //Get
+const objectId = require('mongoose').Types.ObjectId;
+
+//Get
 
 router.get('/turma', async (req, res) => {
 
-      try {
+    try {
 
-     const turma = await turmaSchema.find({});
+        const turma = await turmaSchema.find({}).populate(['codigoProfessor'])
 
-     res.status(200).json({ turma });
+        res.status(200).json({ turma });
 
- } catch (err) {
+    } catch (err) {
 
-     return res.status(400).send({error: 'Erro ao carregar as Turmas'});
+        return res.status(400).send({ error: 'Erro ao carregar as Turmas' });
 
- }
+    }
 });
 
- //Get Id
+//Get Id
 
-router.get('/turma/:Id', async (req, res) => {
- 
- const id = req.params.Id
+router.get('/turma/:turmaNumber', async (req, res) => {
 
- // Check if the id is valid!
+    const { turmaNumber } = req.params;
 
- if (!objectId.isValid(id)) {
+    // Check if the turmaNumber is valid!
 
-     res.status(422).json({message: 'ID inválido!!'})
-     return
- } 
+    const turmaInexistente = await turmaSchema.findOne({ turmaNumber })
 
- try {
+    if (!turmaInexistente) {
 
-     const achandoTurma = await turma.findById(id);
+        res.status(409).json({ message: 'Turma inválida, Tem que inserir um numero de turma Valido existente!' })
+        return
 
-      res.status(200).json({achandoTurma});
+    }
 
- } catch (err) {
 
-          res.status(500).json({ message:'Erro ao exibir turma', error })
-          return	
+    try {
 
- }
+        const achandoTurma = await turma.findOne({ turmaNumber });
+
+        res.status(200).json({message: 'Turma achada com sucesso', achandoTurma });
+
+    } catch (err) {
+
+        res.status(500).json({ message: 'Erro ao exibir turma', err })
+        return
+
+    }
 
 });
 
 
-     //Post
+//Post
 router.post('/turma', async (req, res) => {
- 
- const { teacherName, nameContent, totalStudent, turmaNumber } = req.body
 
- if(!teacherName) {
+    /*temos que trabalhar por cada alumno que é cadastrado y fazer uma contagem
+    cont = n+ 1
+    o resultado tem que se exibihir em get, tiens que hacer una capacidad maxima para alumnos*/
+    const { nameContent, turmaNumber,  capacity, totalStudent, codigoProfessor } = req.body
 
-     res.status(422).json({message: 'Requiere o teacherName'})
-     return
+    if (!nameContent) {
 
- }
+        res.status(422).json({ message: 'Requiere o nameContent' })
+        return
 
- if(!nameContent) {
+    }
 
-     res.status(422).json({message: 'Requiere o nameContent'})
-     return
+    if (!turmaNumber) {
 
- }
+        res.status(422).json({ message: 'Requiere o turmaNumber' })
+        return
 
- if(!totalStudent) {
+    }
 
-     res.status(422).json({message: 'Requiere o totalStudent'})
-     return
+    if (!capacity) {
 
- }
+        res.status(422).json({ message: 'Requiere a capacidade' })
+        return
 
- if(!turmaNumber) {
+    }
 
-     res.status(422).json({message: 'Requiere o turmaNumber'})
-     return
+    if (!totalStudent) {
 
- }
+        res.status(422).json({ message: 'Requiere o numero total' })
+        return
 
- try {
+    }
 
-      const turma = await turmaSchema.create(req.body);
+    if (!codigoProfessor) {
 
-      res.status(201).json({message: 'Cadastro feito com sucesso', turma})
+        res.status(422).json({ message: 'Requiere o codigo do Professor' })
+        return
 
- } catch (err) {
+    }
 
-         res.status(400).json({ message: 'Erro ao cadastrar novo Turma', error})
-                 return 
+    try {
 
-      }
- 
-  
+        const turma = await turmaSchema.create( req.body );
+
+        res.status(201).json({ message: 'Cadastro feito com sucesso', turma })
+
+    } catch (err) {
+
+        res.status(400).json({ message: 'Erro ao cadastrar novo Turma', err })
+        return
+
+    }
+
+
 });
 
-	//Put
+//Put
 
-router.put('/turma/:Id', async(req, res) => {
+router.put('/turma/:turmaNumber', async (req, res) => {
+    //tem que fazer uma cont= +1 e -1 para saber as quantidade de alumnos presentes
+    const { turmaNumber } = req.params;
+    // Check if the id is valid!
+    const turmaInexistente = await turmaSchema.findOne({ turmaNumber })
 
- const id = req.params.Id
+    if (!turmaInexistente) {
+        res.status(409).json({ message: 'Turma inválida, Tem que inserir um codigo existente!' })
+        return
+    }
 
-     // Check if the id is valid!
- 
-    if(!objectId.isValid(id)) {
+    const { codigoProfessor, capacity, totalStudent } = req.body
 
-     res.status(422).json({message: 'ID inválido!!'})
-     return
+    if (!capacity) {
 
- }
+        res.status(422).json({ message: 'Requiere atualizar a Capacidade' })
+        return
 
- const { teacherName, nameContent, totalStudent, turmaNumber } = req.body
+    }
 
- if(!teacherName) {
+    if (!totalStudent) {
 
-     res.status(422).json({message: 'Requiere o teacherName'})
-     return
+        res.status(422).json({ message: 'Requiere atualizar a totalStudent' })
+        return
 
- }
+    }
 
- if(!nameContent) {
+    if (!codigoProfessor) {
 
-     res.status(422).json({message: 'Requiere o nameContent'})
-     return
+        res.status(422).json({ message: 'Requiere o codigo do Professor' })
+        return
+    }
 
- } 
+    try {
 
- if(!totalStudent) {
+        const turma = await turmaSchema.findOneAndUpdate({turmaNumber});
 
-     res.status(422).json({message: 'Requiere o totalStudent'})
-     return
+        res.status(200).json({ message: 'Turma atualizado com sucesso', turma });
 
- } 
+    } catch (err) {
 
- if(!turmaNumber) {
+        res.status(400).send({ err: 'Erro ao atualizar Turma' });
+        return
 
-     res.status(422).json({message: 'Requiere o turmaNumber'})
-     return
-
- } 
- 
- try {
-
-     const turma = await turmaSchema.findByIdAndUpdate(id, req.body);
-
-     res.status(200).json({message: 'Turma atualizado com sucesso', turma});
-
-} catch (err) {
-
-     res.status(400).send({err: 'Erro ao atualizar Turma'});
-             return 
-
-}
+    }
 });
 
-		//Delete
+//Delete
 
-router.delete('/turma/:Id', async (req, res) => {
+router.delete('/turma/:turmaNumber', async (req, res) => {
 
- const TurmaId = req.params.Id
+    const { turmaNumber } = req.params;
 
- // chech if id is valid
+    // chech if id is valid
 
- if(!objectId.isValid(TurmaId)) {
+    const turmaInexistente = await turmaSchema.findOne({ turmaNumber })
 
-    res.status(422).json({message: 'ID inválido!!'})
-    return
+    if (!turmaInexistente) {
+        res.status(409).json({ message: 'Turma inválida, Tem que inserir um codigo existente!' })
+        return
+    }
 
- }
+    try {
 
- try {
+        await turmaSchema.findOneAndDelete(turmaNumber);
 
-      await turma.findByIdAndDelete(TurmaId);
+        res.status(200).json({ message: 'Turma removido com sucesso' });
 
-      res.status(200).json({message: 'Turma removido com sucesso'});
+    } catch (err) {
 
- } catch (err) {
+        res.status(400).send({ error: 'Error deleting Turma' });
+        return
 
-        res.status(400).send({error: 'Error deleting Turma' });
-              return
-
- }
-
+    }
 });
 
 

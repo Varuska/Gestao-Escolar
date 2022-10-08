@@ -18,7 +18,7 @@ const alunosSchema = mongoose.Schema({
         required: true
     },
 
-    cpf: {
+    cpfAluno: {
         type: Number,
         required: true
     },
@@ -28,11 +28,12 @@ const alunosSchema = mongoose.Schema({
         required: true
     },
 
-    turmaNumber: {
+    turmaNumber: [{
         type: Schema.ObjectId, 
         ref: 'turma'
-    }
-    
+    }],
+
+
 });
 
 module.exports = mongoose.model('alunos', alunosSchema);
