@@ -22,13 +22,7 @@ const historicoSchema = mongoose.Schema({
     historico: {
         type: String,
         require: true
-    },
-
-   /* turmaAtualizada: {
-        type: Schema.ObjectId,
-        ref: 'turma'
     }
-*/
 
 });
 

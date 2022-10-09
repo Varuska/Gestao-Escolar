@@ -44,8 +44,7 @@ router.get('/alunos/:cpfAluno', async (req, res) => {
 
     try {
 
-        const achandoAluno = await alunosSchema.findOne({ cpfAluno }).populate('turmaNumber')
-        ;
+        const achandoAluno = await alunosSchema.findOne({ cpfAluno });
 
         res.status(200).json({ messagem: 'Aluno achado com sucesso', achandoAluno });
 

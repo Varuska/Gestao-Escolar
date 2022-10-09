@@ -61,7 +61,7 @@ router.get('/historico/:codigoHistorico', async (req, res) => {
 router.post('/historico', async (req, res) => {
 
     const { nameStudent, idAluno, codigoHistorico, historico,
-    /*turmaAtualizada*/ } = req.body
+    turmaAtualizada } = req.body
 
     if (!nameStudent) {
 
@@ -86,11 +86,11 @@ router.post('/historico', async (req, res) => {
         return
     }
 
-    /*if (!turmaAtualizada) {
+    if (!turmaAtualizada) {
 
         res.status(400).json({ message: 'Requiere a turma Atualizada(turmaAtualizada)' })
         return
-    }*/
+    }
 
     try {
 
