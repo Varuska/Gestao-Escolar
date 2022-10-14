@@ -18,7 +18,10 @@ const professorSchema = mongoose.Schema({
         type: Number, 
         required:true,
         unique: true
-    }
+    },
+
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now }
 
 
 });

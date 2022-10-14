@@ -1,6 +1,7 @@
 const express = require('express');
 const alunos = require('../models/alunos');
 const alunosSchema = require('../models/alunos');
+const turmaSchema = require('../models/turma')
 const router = express.Router();
 
 //helpers
@@ -29,24 +30,22 @@ router.get('/alunos', async (req, res) => {
 
 //Get com o Cpf do ALuno.
 
-router.get('/alunos/:cpfAluno', async (req, res) => {
+router.get('/aluno/:cpfAluno', async (req, res) => {
 
     const { cpfAluno } = req.params;
 
     // Check if the Cpf do Aluno is valid!
 
-    const alunoInexistente = await alunosSchema.findOne({ cpfAluno })
+    const aluno = await alunosSchema.findOne({ cpfAluno })
 
-    if (!alunoInexistente) {
+    if (!aluno) {
         res.status(409).json({ message: 'Cpf inválido, Tem que inserir um Cpf existente!' })
         return
     }
 
     try {
 
-        const achandoAluno = await alunosSchema.findOne({ cpfAluno });
-
-        res.status(200).json({ messagem: 'Aluno achado com sucesso', achandoAluno });
+        res.status(200).json({ messagem: 'Aluno achado com sucesso', achandoAluno: aluno });
 
     } catch (err) {
 
@@ -100,6 +99,16 @@ router.post('/alunos', async (req, res) => {
 
     try {
 
+        const turma = await turmaSchema.findOne({_id: turmaNumber});
+
+        const alunosDaTurma = await alunosSchema.countDocuments({turmaNumber: turma._id});
+
+        if(turma.capacity <= alunosDaTurma){
+
+            res.status(400).json({ message: 'A turma esta cheia' })
+            return
+        };
+
         const alunos = await alunosSchema.create(req.body);
 
         res.status(201).json({ message: 'Cadastro feito com sucesso', alunos })
@@ -111,9 +120,8 @@ router.post('/alunos', async (req, res) => {
     };
 });
 
-//Put com o Cpf do Aluno
-
-router.put('/alunos/:cpfAluno', async (req, res) => {
+// Put com o Cpf do Aluno.
+router.put('/aluno/:cpfAluno', async (req, res) => {
 
     const { cpfAluno }  = req.params;
 
@@ -180,7 +188,7 @@ router.put('/alunos/:cpfAluno', async (req, res) => {
 
 //Delete
 
-router.delete('/alunos/:cpfAluno', async (req, res) => {
+router.delete('/aluno/:cpfAluno', async (req, res) => {
 
     const { cpfAluno } = req.params;
 

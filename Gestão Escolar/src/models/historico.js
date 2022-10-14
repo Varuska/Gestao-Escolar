@@ -21,9 +21,11 @@ const historicoSchema = mongoose.Schema({
 
     historico: {
         type: String,
-        require: true
-    }
+        required: true
+    },
 
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('historico', historicoSchema);

@@ -20,17 +20,15 @@ const turmaSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-
-    totalStudent: {
-        type: Number,
-        required: true
-    },
     
     codigoProfessor : [{
         type: Schema.ObjectId,
         ref: 'professor'
         
     }],
+
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now }
     
 });
 /* professor, capacidade, alumnos

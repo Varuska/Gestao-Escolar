@@ -1,6 +1,6 @@
 
 const express = require('express');
-const professor = require('../models/professor')
+
 const professorSchema = require('../models/professor')
 const router = express.Router();
 
@@ -9,31 +9,31 @@ const objectId = require('mongoose').Types.ObjectId
 
 //Get
 
-router.get('/professor', async (req, res) => {
+router.get('/professores', async (req, res) => {
 
     try {
 
         const professor = await professorSchema.find({});
 
-        res.status(200).json({message: 'Lista dos Professores cadastrados', professor });
+        res.status(200).json({ message: 'Lista dos Professores cadastrados', professor });
 
     } catch (err) {
 
         return res.status(400).send({ err: 'Erro ao carregar as professor' });
     }
 });
-   
 
-    //Get com o Codigo do Professor.
+
+//Get com o Codigo do Professor.
 router.get('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
 
-     //  Check if the codigo is valid!s
-    
-    const codigoInexistente = await professorSchema.findOne({ codigo })
+    //  Check if the codigo is valid!s
 
-    if (!codigoInexistente) {
+    const codigoI = await professorSchema.findOne({ codigo })
+
+    if (!codigoI) {
         res.status(409).json({ message: 'Codigo inválido, Tem que inserir um codigo existente!' })
         return
     };
@@ -55,15 +55,9 @@ router.get('/professor/:codigo', async (req, res) => {
 
 //Post
 router.post('/professor', async (req, res) => {
+
     const { teacherName, lastName, phoneNumber, codigo } = req.body
 
-    const codigoExistente = await professorSchema.findOne({ codigo });
-
-    if (!codigoExistente) {
-
-        res.status(409).json({ message: 'Tem que inserir um codigo Novo para um Novo Cadastro' })
-        return
-    }
     if (!teacherName) {
 
         res.status(400).json({ message: 'Requiere o nome do Professor(teacherName)' })
@@ -103,7 +97,7 @@ router.post('/professor', async (req, res) => {
 
 });
 
-    //Put com o Codigo do Professor
+//Put com o Codigo do Professor
 
 router.put('/professor/:codigo', async (req, res) => {
 
@@ -111,9 +105,9 @@ router.put('/professor/:codigo', async (req, res) => {
 
     const { teacherName, lastName, phoneNumber } = req.body
 
-    const codigoInexistente = await professorSchema.findOne({ codigo });
+    const codigoI = await professorSchema.findOne({ codigo });
 
-    if (!codigoInexistente) {
+    if (!codigoI) {
         res.status(409).json({ message: 'Tem que inserir um Codigo Valido para fazer atualização do Professor' })
         return
     }
@@ -137,7 +131,7 @@ router.put('/professor/:codigo', async (req, res) => {
 
     try {
 
-        const professor = await professorSchema.findOneAndUpdate( codigo, req.body );
+        const professor = await professorSchema.findOneAndUpdate(codigo, req.body);
 
         res.status(200).json({ message: 'Professor atualizado com sucesso', professor });
 
@@ -155,18 +149,18 @@ router.delete('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
 
-     // chech if codigo is valid
+    // chech if codigo is valid
 
-    const codigoInexistente = await professorSchema.findOne({ codigo });
+    const codigoI = await professorSchema.findOne({ codigo });
 
-    if (!codigoInexistente) {
+    if (!codigoI) {
         res.status(409).json({ message: 'Tem que inserir um Codigo Valido para fazer delete  do Professor' })
         return
     }
 
     try {
 
-        await professor.findOneAndDelete({ codigo });
+         await professorSchema.findOneAndDelete({ codigo });
 
         res.status(200).json({ message: 'professor removido com sucesso' });
 
