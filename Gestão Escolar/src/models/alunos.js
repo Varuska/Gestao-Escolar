@@ -31,7 +31,7 @@ const alunosSchema = mongoose.Schema({
 
     turmaNumber: [{
         type: Schema.ObjectId, 
-        ref: 'turma'
+        ref: 'turma',
     }],
 
     created_at: { type: Date, default: Date.now },

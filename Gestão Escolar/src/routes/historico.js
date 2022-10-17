@@ -62,19 +62,14 @@ router.get('/historico/:codigoHistorico', async (req, res) => {
 //Post
 router.post('/historico', async (req, res) => {
 
-    const { nameStudent, idAluno, codigoHistorico, historico,
-        turmaAtualizada } = req.body
+    const { nameStudent, codigoHistorico, historico,
+        turmaAtualizada, idAluno} = req.body
 
     if (!nameStudent) {
 
         res.status(400).json({ message: 'Requiere o nombre do Aluno (nameStudent)' })
         return
 
-    }
-    if (!idAluno) {
-
-        res.status(400).json({ message: 'Requiere o Id do aluno(idAluno)' })
-        return
     }
     if (!codigoHistorico) {
 
@@ -87,10 +82,14 @@ router.post('/historico', async (req, res) => {
         res.status(400).json({ message: 'Requiere o historico(historico)' })
         return
     }
-
     if (!turmaAtualizada) {
 
         res.status(400).json({ message: 'Requiere a turma Atualizada(turmaAtualizada)' })
+        return
+    }
+    if (!idAluno) {
+
+        res.status(400).json({ message: 'Requiere o Id do aluno(idAluno)' })
         return
     }
 
@@ -133,7 +132,7 @@ router.put('/historico/:codigoHistorico', async (req, res) => {
 
     try {
 
-        const historico = await historicoSchema.findOneAndUpdate(codigoHistorico, req.body);
+        const historico = await historicoSchema.findOneAndUpdate({codigoHistorico: codigoHistorico}, req.body);
 
         res.status(200).json({ message: 'Historico atualizado com sucesso', historico });
 

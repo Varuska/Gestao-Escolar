@@ -23,8 +23,7 @@ const turmaSchema = mongoose.Schema({
     
     codigoProfessor : [{
         type: Schema.ObjectId,
-        ref: 'professor'
-        
+        ref: 'professor'    
     }],
 
     created_at: { type: Date, default: Date.now },

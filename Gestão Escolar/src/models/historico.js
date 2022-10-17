@@ -8,11 +8,6 @@ const historicoSchema = mongoose.Schema({
         required: true
     },
 
-    idAluno: [{
-        type: Schema.ObjectId,
-        ref: 'alunos'
-    }],
-
     codigoHistorico: {
         type: Number,
         required: true,
@@ -23,6 +18,11 @@ const historicoSchema = mongoose.Schema({
         type: String,
         required: true
     },
+
+    idAluno: [{
+        type: Schema.ObjectId,
+        ref: 'alunos'
+    }],
 
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },

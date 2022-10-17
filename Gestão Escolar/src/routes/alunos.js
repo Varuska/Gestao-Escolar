@@ -129,9 +129,9 @@ router.put('/aluno/:cpfAluno', async (req, res) => {
 
     // Check if the Cpf is valid!
 
-    const alunoInexistente = await alunosSchema.findOne({ cpfAluno });
+    const alunoI = await alunosSchema.findOne({ cpfAluno });
 
-    if (!alunoInexistente) {
+    if (!alunoI) {
         res.status(409).json({ message: 'Tem que inserir um Cpf Valido para fazer atualização do Aluno' })
         return
     };
@@ -174,7 +174,7 @@ router.put('/aluno/:cpfAluno', async (req, res) => {
 
     try {
 
-        const alunos = await alunosSchema.findOneAndUpdate ( cpfAluno, req.body );
+        const alunos = await alunosSchema.findOneAndUpdate ( {cpfAluno: cpfAluno}, req.body );
 
         res.status(200).json({ message: 'Aluno atualizado com sucesso', alunos });
 

@@ -1,14 +1,12 @@
 
 const express = require('express');
-
 const professorSchema = require('../models/professor')
 const router = express.Router();
 
 //helpers
 const objectId = require('mongoose').Types.ObjectId
 
-//Get
-
+//Get Todos os Professores Cadastrados
 router.get('/professores', async (req, res) => {
 
     try {
@@ -29,7 +27,7 @@ router.get('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
 
-    //  Check if the codigo is valid!s
+    //  Check if the codigo is valid!
 
     const codigoI = await professorSchema.findOne({ codigo })
 
@@ -53,7 +51,7 @@ router.get('/professor/:codigo', async (req, res) => {
     }
 });
 
-//Post
+//Post 
 router.post('/professor', async (req, res) => {
 
     const { teacherName, lastName, phoneNumber, codigo } = req.body
@@ -98,17 +96,18 @@ router.post('/professor', async (req, res) => {
 });
 
 //Put com o Codigo do Professor
-
 router.put('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
-
+     // Check if the id is valid!
     const { teacherName, lastName, phoneNumber } = req.body
+
+    // chech if codigo is valid!
 
     const codigoI = await professorSchema.findOne({ codigo });
 
     if (!codigoI) {
-        res.status(409).json({ message: 'Tem que inserir um Codigo Valido para fazer atualização do Professor' })
+        res.status(409).json({ message: 'Tem que inserir um Codigo Valido de 4 caracteres para fazer atualização do Professor' })
         return
     }
 
@@ -131,9 +130,9 @@ router.put('/professor/:codigo', async (req, res) => {
 
     try {
 
-        const professor = await professorSchema.findOneAndUpdate(codigo, req.body);
+        const professor = await professorSchema.findOneAndUpdate({codigo: codigo }, req.body);
 
-        res.status(200).json({ message: 'Professor atualizado com sucesso', professor });
+        res.status(200).json({ message: 'Professor atualizado com sucesso'});
 
     } catch (err) {
 
@@ -149,7 +148,7 @@ router.delete('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
 
-    // chech if codigo is valid
+    // chech if codigo is valid!
 
     const codigoI = await professorSchema.findOne({ codigo });
 
