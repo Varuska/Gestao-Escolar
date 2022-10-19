@@ -70,8 +70,7 @@ router.post('/historico', async (req, res) => {
         res.status(400).json({ message: 'Requiere o nombre do Aluno (nameStudent)' })
         return
 
-    }
-    if (!codigoHistorico) {
+    }  if (!codigoHistorico) {
 
         res.status(400).json({ message: 'Requiere o codigo do historico(codigoHistorico)' })
         return
@@ -81,8 +80,7 @@ router.post('/historico', async (req, res) => {
 
         res.status(400).json({ message: 'Requiere o historico(historico)' })
         return
-    }
-    if (!turmaAtualizada) {
+    } if (!turmaAtualizada) {
 
         res.status(400).json({ message: 'Requiere a turma Atualizada(turmaAtualizada)' })
         return

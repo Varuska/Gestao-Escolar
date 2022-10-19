@@ -6,6 +6,10 @@ const  turmaRoutes = require('./routes/turma');
 const professorRoutes = require('./routes/professor');
 const historicoRoutes = require('./routes/historico');
 
+    //swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./swagger.json');
+
 
 // settings
 const app = express();
@@ -18,6 +22,10 @@ app.use('/api', alunosRoutes);
 app.use('/api', turmaRoutes);
 app.use('/api', professorRoutes);
 app.use('/api', historicoRoutes);
+
+
+// swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 
 // routes

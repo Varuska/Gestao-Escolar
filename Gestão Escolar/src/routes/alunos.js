@@ -45,6 +45,10 @@ router.get('/aluno/:cpfAluno', async (req, res) => {
 
     try {
 
+        const achandoAluno = await alunoSchema.findOne({
+            cpfAluno
+        });
+
         res.status(200).json({ messagem: 'Aluno achado com sucesso', achandoAluno: aluno });
 
     } catch (err) {
@@ -173,6 +177,17 @@ router.put('/aluno/:cpfAluno', async (req, res) => {
     }
 
     try {
+        
+        const turma = await turmaSchema.findOne({_id: turmaNumber});
+
+        const alunosDaTurma = await alunosSchema.countDocuments({turmaNumber: turma._id});
+
+        if(turma.capacity <= alunosDaTurma){
+
+            res.status(400).json({ message: 'A turma esta cheia' })
+            return
+        }; 
+
 
         const alunos = await alunosSchema.findOneAndUpdate ( {cpfAluno: cpfAluno}, req.body );
 

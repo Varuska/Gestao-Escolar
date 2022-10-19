@@ -1,0 +1,742 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Projeto de Gestão Escolar",
+		"description": "Gestão Escolar, Projeto Api onde tem as informações para ter um maior controle dos professores, Turmas, Alunos e historial do Aluno",
+		"contact": {
+			"email": "varusk9@gmail.com"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:9000",
+			"description": "Api "
+		}
+	],
+	"paths": {
+		"/api/professor": {
+			"post": {
+				"summary": "Cadastrando Professor",
+				"description": "Essa rota será responsável por cada cadastro de um novo professor",
+				"tags": [
+					"Professor"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/professor"
+							},
+							"examples": {
+								"professor": {
+									"value": {
+										"teacherName": "Olga",
+										"lastName": "Porto",
+										"phoneNumber": 95441325,
+										"codigo": 1010
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Cadastro Feito com sucesso",
+						"content": {
+							"application/json": {
+								"schema:": {
+									"type": "object",
+									"$ref": "#/components/schemas/professor"
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Requiere o teacherName,lastName,phoneNumber,codigo"
+				}
+			}
+		},
+		"/api/professores": {
+			"get": {
+				"description": "Busca de Todos os Professores Cadastrados",
+				"summary": "Busca de Todos os Professores Cadastrados",
+				"tags": [
+					"Professor"
+				],
+				"responses": {
+					"200": {
+						"description": "Todos os Professores Cadastrados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"items": {
+										"$ref": "#/components/schemas/professor"
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Erro"
+					}
+				}
+			}
+		},
+		"/api/professor/{codigo}": {
+			"get": {
+				"description": "Busca um Professores Cadastrado pelo Codigo",
+				"summary": "Busca um Professor Cadastrado pelo codigo",
+				"tags": [
+					"Professor"
+				],
+				"parameters": [
+					{
+						"name": "codigo",
+						"in": "path",
+						"description": "Busca do Professor pelo Codigo",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Professor Cadastrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/professor"
+								}
+							}
+						}
+					}
+				}
+			},
+				"put": {
+						"description": "Atualizar um Professor pelo codigo",
+						"summary": "Atualizar um Professor",
+						"tags": [
+							"Professor"
+						],
+						"parameters": [
+							{
+								"name": "codigo",
+								"in": "path",
+								"description": "Atualizar Professor pelo Codigo",
+								"required": "true"
+							}
+						],
+						"requestBody": {
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#/components/schemas/professor"
+									},
+									"examples": {
+										"professor": {
+											"value": {
+												"teacherName": "Olga",
+												"lastName": "Porto",
+												"phoneNumber": 95441325
+											}
+										}
+									}
+								}
+							}
+						},
+						"200": {
+							"description": "Professor Cadastrado"
+						}
+					},
+		"delete": {
+						"description": "Remover Professor pelo codigo",
+						"summary": "Remover um Professor",
+						"tags": [
+							"Professor"
+						],
+						"parameters": [
+							{
+								"name": "codigo",
+								"in": "path",
+								"description": "Atualizar Professor pelo Codigo",
+								"required": "true"
+							}
+						],
+						"200": {
+							"description": "Professor Removido"
+						},
+"components": {
+							"schemas": {
+								"professor": {
+									"type": "object",
+									"properties": {
+										"teacherName": {
+											"type": "String"
+										},
+										"lastName": {
+											"type": "String"
+										},
+										"phoneNumber": {
+											"type": "Number"
+										},
+										"codigo": {}
+									}
+								}
+							}
+						}
+					}
+				},
+		"/api/turma": {	
+				"post": {
+							"summary": "Cadastrando turma",
+							"description": "Essa rota será responsável por cada cadastro de uma nova turma",
+							"tags": [
+								"Turma"
+							],
+							"requestBody": {
+								"content": {
+									"application/json": {
+										"schema": {
+											"$ref": "#/components/schemas/turma"
+										},
+										"examples": {
+											"turma": {
+												"value": {
+													"nameContent": "Espanhol",
+													"turmaNumber": "20",
+													"capacity": 8,
+													"codigoProfessor": "634032c8e0e1316c967664a3"
+												}
+											}
+										}
+									}
+								}
+							},
+							"responses": {
+								"201": {
+									"description": "Cadastro Feito com sucesso",
+									"content": {
+										"application/json": {
+											"schema:": {
+												"type": "object",
+												"$ref": "#/components/schemas/turma"
+										}
+										}
+									}
+								}
+							},
+							"400": {
+								"description": "Requiere o nameContent,turmaNumber,capacity,codigoProfessor"
+							}
+						}
+					},
+		"/api/turmas": {
+							"get": {
+								"description": "Busca de Todas as turmas Cadastradas",
+								"summary": "Busca de Todas as turmas Cadastradas",
+								"tags": [
+									"Turma"
+								],
+								"responses": {
+									"200": {
+										"description": "Todas as Turmas Cadastradas",
+										"content": {
+											"application/json": {
+												"schema": {
+													"type": "object",
+													"items": {
+														"$ref": "#/components/schemas/turma"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+		"/api/turma/{turmaNumber}": {
+							"get": {
+								"description": "Busca uma turma Cadastrada pelo numero da turma",
+								"summary": "Busca uma turma Cadastrada pelo numero da turma",
+								"tags": [
+									"Turma"
+								],
+								"parameters": [
+									{
+										"name": "turmaNumber",
+										"in": "path",
+										"description": "Busca uma turma Cadastrada pelo numero da turma",
+										"required": "true"
+									}
+								],
+								"responses": {
+									"200": {
+										"description": "Turma ",
+										"content": {
+											"application/json": {
+												"schema": {
+													"type": "object",
+													"$ref": "#/components/schemas/turma"
+												}
+											}
+										}
+									}
+								}
+							},
+							"put": {
+								"description": "Atualizar uma turma pelo numero da turma",
+								"summary": "Atualizar uma turma",
+								"tags": [
+									"Turma"
+								],
+								"parameters": [
+									{
+										"name": "turmaNumber",
+										"in": "path",
+										"description": "Atualizar Turma pelo Numero da turma",
+										"required": "true"
+									}
+								],
+								"requestBody": {
+									"content": {
+										"application/json": {
+											"schema": {
+												"$ref": "#/components/schemas/turma"
+											},
+											"examples": {
+												"turma": {
+													"value": {
+														"nameContent": "Espanhol",
+														"turmaNumber": "20",
+														"capacity": 8,
+														"codigoProfessor": "634032c8e0e1316c967664a3"
+													}
+												}
+											}
+										}
+									}
+								},
+								"200": {
+									"description": "ok"
+								}
+							},
+							"delete": {
+								"description": "Remover uma turma pelo numero da turma",
+								"summary": "Remover uma turma",
+								"tags": [
+									"Turma"
+								],
+								"parameters": [
+									{
+										"name": "turmaNumber",
+										"in": "path",
+										"description": "Remover Turma pelo Numero da turma",
+										"required": "true"
+									}
+								],
+								"200": {
+									"description": "Turma removida com sucesso"
+								}
+							},
+"components": {
+								"schemas": {
+									"turma": {
+										"type": "object",
+										"properties": {
+											"nameContent": {
+												"type": "String"
+											},
+											"turmaNumber": {
+												"type": "String"
+											},
+											"capacity": {
+												"type": "Number"
+											},
+											"codigoProfessor": [{
+												"type": "Schema.objectId",
+												"ref": "professor"
+											}]
+										}
+									}
+								}
+							}
+						},
+		"/api/historico": {
+							"post": {
+								"summary": "Cadastrando Historico",
+								"description": "Essa rota será responsável por cada cadastro de um novo historico",
+								"tags": [
+									"Historico"
+								],
+								"requestBody": {
+									"content": {
+										"application/json": {
+											"schema": {
+												"$ref": "#/components/schemas/historico"
+											},
+											"examples": {
+												"historico": {
+													"value": {
+														"nameStudent": "Arturo",
+														"codigoHistorico": "1012",
+														"hisotrico": "Aprovado",
+														"idAluno": ""
+													}
+												}
+											}
+										}
+									}
+								},
+								"responses": {
+									"201": {
+										"description": "Cadastro Feito com sucesso",
+										"content": {
+											"application/json": {
+												"schema:": {
+													"type": "object",
+													"$ref": "#/components/schemas/alunos"
+												}
+											}
+										}
+									}
+								},
+								"400": {
+									"description": "Requiere o nameStudent,codigoHistorico,hisotrico,idAluno"
+								}
+							}
+						},
+		"/api/historicos": {
+							"get": {
+								"description": "Busca de Todos os Historicos cadastrados",
+								"summary": "Busca de Todos os Historicos cadastrados",
+								"tags": [
+									"Historico"
+								],
+								"responses": {
+									"200": {
+										"description": "Historico Cadastrado",
+										"content": {
+											"application/json": {
+												"schema": {
+													"type": "object",
+													"items": {
+														"$ref": "#/components/schemas/historico"
+													}
+												}
+											}
+										}
+									},
+									"500": {
+										"description": "Erro"
+									}
+								}
+							}
+						},
+		"/api/historico/{codigoHistorico}": {
+							"get": {
+								"description": "Busca um historico Cadastrado pelo Codigo Historico",
+								"summary": "Busca um historico Cadastrado pelo Codigo Historico",
+								"tags": [
+									"Historico"
+								],
+								"parameters": [
+									{
+										"name": "codigoHistorico",
+										"in": "path",
+										"description": "Busca do Historico pelo codigo",
+										"required": "true"
+									}
+								],
+								"responses": {
+									"200": {
+										"description": "Historico Cadastrado",
+										"content": {
+											"application/json": {
+												"schema": {
+													"type": "object",
+													"$ref": "#/components/schemas/historico"
+												}
+											}
+										}
+									},
+									"500": {
+										"description": "Erro"
+									}
+								}
+							},
+							"put": {
+								"description": "Atualizar um Historico pelo codigo",
+								"summary": "Atualizar um Historico",
+								"tags": [
+									"Historico"
+								],
+								"parameters": [
+									{
+										"name": "codigoHistorico",
+										"in": "path",
+										"description": "Atualizar um historico pelo Codigo",
+										"required": "true"
+									}
+								],
+								"requestBody": {
+									"content": {
+										"application/json": {
+											"schema": {
+												"$ref": "#/components/schemas/historico"
+											},
+											"examples": {
+												"historico": {
+													"value": {
+														"nameStudent": "Arturo",
+														"codigoHistorico": "1012",
+														"hisotrico": "Aprovado",
+														"idAluno": ""
+													}
+												}
+											}
+										}
+									}
+								},
+							"200": {
+								"description": "Atualização Feita com sucesso"
+							}
+						},
+						"delete": {
+							"description": "Remover Historico pelo codigo",
+							"summary": "Remover um Historico",
+							"tags": [
+								"Historico"
+							],
+							"parameters": [
+								{
+									"name": "codigoHistorico",
+									"in": "path",
+									"description": "Atualizar um historico pelo Codigo",
+									"required": "true"
+								}
+							]			
+						},
+"components": {
+							"schemas": {
+								"historico": {
+									"type": "object",
+									"properties": {
+										"nameStudent": {
+											"type": "String"
+										},
+										"codigoHistorico": {
+											"type": "Number"
+										},
+										"historico": {
+											"type": "String"
+										},
+										"idAluno": [{
+											"type": "Schema.objectId",
+											"ref": "alunos"
+										}]
+									}
+								}
+							}
+						}
+					},
+		"/api/alunos": {
+						"post": {
+							"summary": "Cadastrando Alunos",
+							"description": "Essa rota será responsável por cada cadastro de um novo Aluno",
+							"tags": [
+								"Alunos"
+							],
+							"requestBody": {
+								"content": {
+									"application/json": {
+										"schema": {
+											"$ref": "#/components/schemas/alunos"
+										},
+										"examples": {
+											"alunos": {
+												"value": {
+													"nameStudent": "Arturo",
+													"lastName": "Goncalves",
+													"age": "17",
+													"cpfAluno": "1234567",
+													"tutorRepresentante": "Mirian Goncalves",
+													"turmaNumber": ""
+												}
+											}
+										}
+									}
+								}
+							},
+							"responses": {
+								"201": {
+									"description": "Cadastro Feito com sucesso",
+									"content": {
+										"application/json": {
+											"schema:": {
+												"type": "object",
+												"$ref": "#/components/schemas/alunos"
+											}
+										}
+									}
+								}
+							},
+							"400": {
+								"description": "Requiere o nameStudent,lastName,age,cpfAluno,tutorRepresentante,turmaNumber"
+							}
+						},
+					"/api/alunos": {
+						"get": {
+							"description": "Busca de Todos os Alunos cadastrados",
+							"summary": "Busca de Todos os Alunos cadastrados",
+							"tags": [
+								"Alunos"
+							],
+							"responses": {
+								"200": {
+									"description": "Alunos Cadastrado",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"items": {
+													"$ref": "#/components/schemas/alunos"
+												}
+											}
+										}
+									}
+								},
+								"500": {
+									"description": "Erro"
+								}
+
+							}
+						}
+					},
+		"/api/aluno/{cpfAluno}": {
+						"get": {
+							"description": "Busca um Aluno Cadastrado pelo cpf",
+							"summary": "Busca um historico Cadastrado pelo cpf",
+							"tags": [
+								"Alunos"
+							],
+							"parameters": [
+								{
+									"name": "cpfAluno",
+									"in": "path",
+									"description": "Busca do Aluno pelo cpf",
+									"required": "true"
+								}
+							],
+							"responses": {
+								"200": {
+									"description": "Aluno Cadastrado",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"$ref": "#/components/schemas/alunos"
+											}
+										}
+									}
+								},
+								"500": {
+									"description": "Erro"
+								}
+							}
+						},
+						"put": {
+							"description": "Atualizar um Aluno pelo cpf",
+							"summary": "Atualizar um Aluno",
+							"tags": [
+								"Alunos"
+							],
+							"parameters": [
+								{
+									"name": "cpfAluno",
+									"in": "path",
+									"description": "Atualizar um Aluno pelo cpf",
+									"required": "true"
+								}
+							],
+							"requestBody": {
+								"content": {
+									"application/json": {
+										"schema": {
+											"$ref": "#/components/schemas/aluno"
+										},
+										"examples": {
+											"alunos": {
+												"value": {
+													"nameStudent": "Arturo",
+													"lastName": "Goncalves",
+													"age": "17",
+													"tutorRepresentante": "Mirian Goncalves",
+													"turmaNumber": ""
+												}
+											}
+										}
+									}
+									}
+								}
+							},
+						"200": {
+							"description": "Atualização Feita com sucesso"
+						}
+					},
+					"delete": {
+						"description": "Remover Aluno pelo cpf",
+						"summary": "Remover um Aluno",
+						"tags": [
+							"Alunos"
+						],
+						"parameters": [
+							{
+								"name": "cpfAluno",
+								"in": "path",
+								"description": "Atualizar um Aluno pelo Codigo",
+								"required": "true"
+							}
+						]			
+					},
+"components": {
+						"schemas": {
+							"aluno": {
+								"type": "object",
+								"properties": {
+									"nameStudent": {
+										"type": "String"
+									},
+									"lastName": {
+										"type": "String"
+									},
+									"age": {
+										"type": "Number"
+									},
+									"cpfAluno":{
+										"type": "Number"
+									},
+									"tutorRepresentante" : {
+										"type": "String"
+									},
+									"turmaNumber": [
+										{
+											"type": "Schema.objectId",
+											"ref": "turma"
+										}
+									]
+
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	
+
+			
+	
+
