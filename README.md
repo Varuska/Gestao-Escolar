@@ -22,7 +22,7 @@ $ npm start </br>
 
 <h3>Visualização das requisições</h3>
 <ul>
-<li>Postman
-    swagger</li>
+    <li>Postman</li>
+    <li>Swagger</li>
 </ul>
 <p>Projeto final colaborativo da TOTI por <a href="https://github.com/neoca">Neomar iglesias</a>, <a href="https://github.com/Varuska"> Maria varuska </a>, <a> Brigido Domingos</a> e <a>Hodavio joseph,</a> <a>Kiamusoke Kya Muana </a> .</p>
