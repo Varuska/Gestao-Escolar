@@ -98,7 +98,7 @@ router.post('/turma', async (req, res) => {
         res.status(400).json({ message: 'Requiere o Codigo do Professor (CodigoProfessor)' })
         return
     }
- 
+
     try {
 
         const turma = await turmaSchema.create(req.body);
@@ -107,7 +107,7 @@ router.post('/turma', async (req, res) => {
 
     } catch (err) {
 
-        res.status(400).json({ message: 'Erro ao criar nova Turma, Verifique se os Valores dados no corpo da requisição são os corretos.'})
+        res.status(400).json({ message: 'Erro ao criar nova Turma, Verifique se os Valores dados no corpo da requisição são os corretos.' })
         return
 
     };
@@ -146,7 +146,7 @@ router.put('/turma/:turmaNumber', async (req, res) => {
 
     try {
 
-        const turma = await turmaSchema.findOneAndUpdate({turmaNumber: turmaNumber}, req.body);
+        const turma = await turmaSchema.findOneAndUpdate({ turmaNumber: turmaNumber }, req.body);
 
         res.status(200).json({ message: 'Turma atualizado com sucesso' });
 

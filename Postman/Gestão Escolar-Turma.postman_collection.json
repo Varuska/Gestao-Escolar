@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "ca2e9d16-b372-47d7-9a92-eaf78e1040bb",
+		"name": "Gestão Escolar-Turma",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22934280"
+	},
+	"item": [
+		{
+			"name": "Cadastrando turma",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"nameContent\": \"Espanhol\",\r\n        \"turmaNumber\": 32,\r\n        \"capacity\": 4,\r\n        \"codigoProfessor\": \"634032c8ek\"\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/turma",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"turma"
+					]
+				},
+				"description": "**\"message\": \"Turma cadastrada com sucesso\",**  \n\"turma\": {  \n\"nameContent\": \"Inglês\",  \n\"turmaNumber\": 12,  \n\"capacity\": 5,  \n\"codigoProfessor\": \\[  \n\"634032c8e0e1316c967664a3\"  \n\\],  \n\"_id\": \"6349d508cb007075a5a28a4f\",  \n\"created_at\": \"2022-10-14T21:30:48.723Z\",  \n\"updated_at\": \"2022-10-14T21:30:48.724Z\",  \n\"__v\": 0  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Turma Cadastrados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/turmas",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"turmas"
+					]
+				},
+				"description": "{ (Turma Criada)  \n**\"message\": \"Lista das Turmas cadastradas\"**,  \n\"turmas\": \\[  \n{  \n\"_id\": \"6349d508cb007075a5a28a4f\",  \n\"nameContent\": \"Inglês\",  \n\"turmaNumber\": 12,  \n\"capacity\": 5,  \n\"codigoProfessor\": \\[  \n{  \n\"_id\": \"634032c8e0e1316c967664a3\",  \n\"teacherName\": \"Thiago\",  \n\"lastName\": \"Oliveiras\",  \n\"phoneNumber\": 95507812,  \n\"codigo\": 1012,  \n**\"v\": 0****}****\\],**\"created_at\": \"2022-10-14T21:30:48.723Z\",****\"updated_at\": \"2022-10-14T21:30:48.724Z\",**  \n\"**v\": 0,**\"numeroDeAlunos\": 0**  \n},  \n{...}\n\n(Turma Com Alunos)\n\n{\n\n\"_id\": \"6349d64ecb007075a5a28a6d\",  \n\"nameContent\": \"Espanhol\",  \n\"turmaNumber\": 13,  \n**\"capacity\": 4,**  \n\"codigoProfessor\": \\[  \n{  \n\"_id\": \"6348a13869831f5e644f4ca3\",\n\n\"teacherName\": \"Rosa\",  \n\"lastName\": \"Guz\"\n\n\"phoneNumber\": 8765463,  \n**\"codigo\": 1013,**  \n\"created_at\": \"2022-10-13T23:37:28.984Z\",  \n\"updated_at\": \"2022-10- 13T23:37:28.984Z\",  \n\"**v\": 0****}**\\],**\"created_at\": \"2022-10-14T21:36:14.176Z\",**\"updated_at\": \"2022-10-14T21:36:14.177Z\",**\"**v\": 0,**\"numeroDeAlunos\": 3**\n\n},,,"
+			},
+			"response": []
+		},
+		{
+			"name": "Turma-numeroTurma",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/turma/11",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"turma",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alteração dos dados da Turma",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n        \"capacity\": 3,\r\n        \"codigoProfessor\": \"634032a5e0e1316c967664a0\"\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/turma/15",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"turma",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover turma",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/turma/11",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"turma",
+						"11"
+					]
+				},
+				"description": "Delete Da Turma com o Numero da turma.\n\n{  \n**\"message\": \"Turma removido com sucesso\"**  \n}\n\nNumero da turma invalido\n\n**{**\n\n**\"message\": \"Turma inválida, Tem que inserir um numero de turma existente!\"**\n\n**}**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:9000",
+			"type": "string"
+		}
+	]
+}

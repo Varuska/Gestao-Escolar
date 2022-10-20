@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "66c61dca-17eb-4275-98d4-c6d52ea6d174",
+		"name": "Gestão Escolar-Alunos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22934280"
+	},
+	"item": [
+		{
+			"name": "Cadastrando Aluno",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "      {\r\n            \"nameStudent\": \"Leticia\",\r\n            \"lastName\": \"Machado\",\r\n            \"age\": 16,\r\n            \"cpfAluno\":  5759513,\r\n            \"tutorRepresentante\": \"Carlos Machado\",\r\n            \"turmaNumber\": \"6349df95cb007075a5a28aa5\"\r\n      }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/alunos",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alunos Cadastrados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/alunos",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aluno-cpfAluno",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/aluno/8596321",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aluno",
+						"8596321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alteração dos dados do Aluno",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n        \"nameStudent\": \"Eduardo\",\r\n        \"lastName\": \"Carneiro\",\r\n        \"age\": 18,\r\n        \"cpfAluno\": 456523720,\r\n        \"tutorRepresentante\": \"Gabriel Carneiroo\",\r\n        \"turmaNumber\": \r\n         \"6349d64ecb007075a5a28a6d\"\r\n  }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/aluno/4565237",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aluno",
+						"4565237"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover Aluno",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/aluno/1452367",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"aluno",
+						"1452367"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:9000",
+			"type": "string"
+		}
+	]
+}

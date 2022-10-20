@@ -1,6 +1,5 @@
 
 const mongoose = require('mongoose');
-const professor = require('./professor');
 const Schema = mongoose.Schema;
 const turmaSchema = mongoose.Schema({
 
@@ -28,14 +27,6 @@ const turmaSchema = mongoose.Schema({
 
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now }
-    
-});
-/* professor, capacidade, alumnos
-
-});*/
-/*teacherName : {
-        type: Schema.codigo,
-        ref: 'professor'
-    }*/
+    });
 
 module.exports = mongoose.model('turma', turmaSchema)

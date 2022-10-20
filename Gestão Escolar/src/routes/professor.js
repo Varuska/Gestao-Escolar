@@ -1,4 +1,3 @@
-
 const express = require('express');
 const professorSchema = require('../models/professor')
 const router = express.Router();
@@ -99,7 +98,7 @@ router.post('/professor', async (req, res) => {
 router.put('/professor/:codigo', async (req, res) => {
 
     const { codigo } = req.params;
-     // Check if the id is valid!
+    // Check if the id is valid!
     const { teacherName, lastName, phoneNumber } = req.body
 
     // chech if codigo is valid!
@@ -130,9 +129,9 @@ router.put('/professor/:codigo', async (req, res) => {
 
     try {
 
-        const professor = await professorSchema.findOneAndUpdate({codigo: codigo }, req.body);
+        const professor = await professorSchema.findOneAndUpdate({ codigo: codigo }, req.body);
 
-        res.status(200).json({ message: 'Professor atualizado com sucesso'});
+        res.status(200).json({ message: 'Professor atualizado com sucesso' });
 
     } catch (err) {
 
@@ -159,7 +158,7 @@ router.delete('/professor/:codigo', async (req, res) => {
 
     try {
 
-         await professorSchema.findOneAndDelete({ codigo });
+        await professorSchema.findOneAndDelete({ codigo });
 
         res.status(200).json({ message: 'professor removido com sucesso' });
 

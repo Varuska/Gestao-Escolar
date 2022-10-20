@@ -6,16 +6,16 @@ const  turmaRoutes = require('./routes/turma');
 const professorRoutes = require('./routes/professor');
 const historicoRoutes = require('./routes/historico');
 
-    //swagger
+    //swagger const
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swagger.json');
 
 
-// settings
+    // settings
 const app = express();
 const port =  process.env.PORT || 9000;
 
-// middleware
+    // middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}));
 app.use('/api', alunosRoutes);
@@ -24,17 +24,17 @@ app.use('/api', professorRoutes);
 app.use('/api', historicoRoutes);
 
 
-// swagger
+    // swagger app
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 
-// routes
+    // routes
 app.get('/', (req, res )=> {
     res.send('Welcom to my app Gestão Escolar')
 });
 
 
-// mongodb connection
+    // mongodb connection
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDb Atlas'))
