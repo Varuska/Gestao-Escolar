@@ -16,7 +16,7 @@
 
 $ npm init -y </br>
 $ npm install express nodemon mongoose swagger-ui </br>
-$ npm start </br>
+$ npm run start </br>
 </ul>
 
 
